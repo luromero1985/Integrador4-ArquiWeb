@@ -96,21 +96,20 @@ public class AdministradorService {
         administradorRepository.delete(cuenta);
     }
 
-
     public float getTarifaComun(LocalDateTime fecha){
 
         if (fecha == null) {
             throw new FechaNulaException();
         }
 
-        Administrador actualizacion = administradorRepository
-                .findTopByFechaLessThanEqualOrderByFechaDesc(fecha);
+        List<Float> actualizacion = administradorRepository
+                .findPrecioComunByFechaAnterior(fecha);
 
         if (actualizacion == null) {
             throw new TarifaNoEncontradaException();
         }
 
-        return actualizacion.getPrecio();
+        return actualizacion.get(0);
     }
 
     public float getTarifaEspecial(LocalDateTime fecha){
@@ -119,15 +118,16 @@ public class AdministradorService {
             throw new FechaNulaException();
         }
 
-        Administrador actualizacion = administradorRepository
-                .findTopByFechaLessThanEqualOrderByFechaDesc(fecha);
+        List<Float> actualizacion = administradorRepository
+                .findPrecioEspecialByFechaAnterior(fecha);
 
         if (actualizacion == null) {
             throw new TarifaNoEncontradaException();
         }
 
-        return actualizacion.getPrecioEspecial();
+        return actualizacion.get(0);
     }
+
 
 
 

@@ -26,7 +26,7 @@ public class DataLoader implements CommandLineRunner {
                 40353454L, -38123876L, // Fin: Estacion B
                 1L, 2L,
                 null, null,
-                10.00f);
+                null);
 
 // Viaje 2: Sin pausa, distancia moderada
         Viaje viaje2 = new Viaje(null,
@@ -36,7 +36,7 @@ public class DataLoader implements CommandLineRunner {
                 40543321L, -38312300L, // Fin: Estacion C
                 2L, 1L,
                 null, null,
-                12.50f);
+                null);
 
 // Viaje 3: Con pausa de 20 minutos, distancia larga
         Viaje viaje3 = new Viaje(null,
@@ -47,7 +47,7 @@ public class DataLoader implements CommandLineRunner {
                 3L, 4L,
                 LocalDateTime.now().minusHours(4).minusMinutes(20),
                 LocalDateTime.now().minusHours(4),
-                15.75f);
+                null);
 
 // Viaje 4: Sin pausa, distancia moderada
         Viaje viaje4 = new Viaje(null,
@@ -57,7 +57,7 @@ public class DataLoader implements CommandLineRunner {
                 40353645L, -38123456L, // Fin: Estacion E
                 4L, 5L,
                 null, null,
-                8.25f);
+                null);
 
 // Viaje 5: Con pausa de 30 minutos, distancia larga
         Viaje viaje5 = new Viaje(null,
@@ -68,7 +68,7 @@ public class DataLoader implements CommandLineRunner {
                 6L, 7L,
                 LocalDateTime.now().minusHours(5).minusMinutes(30),
                 LocalDateTime.now().minusHours(5).minusMinutes(10),
-                20.50f);
+                null);
 
 // Viaje 6: Con pausa de 10 minutos, distancia corta
         Viaje viaje6 = new Viaje(null,
@@ -79,7 +79,7 @@ public class DataLoader implements CommandLineRunner {
                 5L, 6L,
                 LocalDateTime.now().minusMinutes(40),
                 LocalDateTime.now().minusMinutes(30),
-                9.00f);
+                null);
 
 // Viaje 7: Con pausa de 5 minutos, distancia corta
         Viaje viaje7 = new Viaje(null,
@@ -90,7 +90,7 @@ public class DataLoader implements CommandLineRunner {
                 7L, 8L,
                 LocalDateTime.now().minusMinutes(15),
                 LocalDateTime.now().minusMinutes(10),
-                7.50f);
+                null);
 
 // Viaje 8: Con pausa de 40 minutos, distancia larga
         Viaje viaje8 = new Viaje(null,
@@ -101,7 +101,7 @@ public class DataLoader implements CommandLineRunner {
                 2L, 4L,
                 LocalDateTime.now().minusHours(6).minusMinutes(40),
                 LocalDateTime.now().minusHours(6),
-                30.00f);
+                null);
 
 // Viaje 9: Con pausa de 1 hora, distancia larga
         Viaje viaje9 = new Viaje(null,
@@ -112,7 +112,7 @@ public class DataLoader implements CommandLineRunner {
                 3L, 2L,
                 LocalDateTime.now().minusHours(2).minusMinutes(55),
                 LocalDateTime.now().minusMinutes(5),
-                18.00f);
+                null);
 
 // Viaje 10: Sin pausa, distancia moderada
         Viaje viaje10 = new Viaje(null,
@@ -122,7 +122,7 @@ public class DataLoader implements CommandLineRunner {
                 40353454L, -38123876L, // Fin: Estacion B
                 8L, 9L,
                 null, null,
-                12.00f);
+                null);
 
 // Viaje 11: Con pausa de 25 minutos, distancia larga
         Viaje viaje11 = new Viaje(null,
@@ -133,7 +133,7 @@ public class DataLoader implements CommandLineRunner {
                 9L, 10L,
                 LocalDateTime.now().minusHours(2).minusMinutes(25),
                 LocalDateTime.now().minusHours(2),
-                22.00f);
+                null);
 
 // Viaje 12: Con pausa de 15 minutos, distancia moderada
         Viaje viaje12 = new Viaje(null,
@@ -144,7 +144,7 @@ public class DataLoader implements CommandLineRunner {
                 10L, 1L,
                 LocalDateTime.now().minusHours(1).minusMinutes(15),
                 LocalDateTime.now().minusHours(1),
-                16.00f);
+                null);
 
 // Guardar los viajes
         viajeRepository.save(viaje1);

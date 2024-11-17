@@ -75,6 +75,7 @@ public class AdministradorController {
 
 
 
+
     // a) Como encargado de mantenimiento quiero poder generar un reporte de uso de monopatines por
     // kilómetros para establecer si un monopatín requiere de mantenimiento. Este reporte debe poder
     // configurarse para incluir (o no) los tiempos de pausa.

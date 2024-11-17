@@ -2,8 +2,7 @@ package org.example.microviaje.services;
 
 import feign.Client;
 import jakarta.transaction.Transactional;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
+
 import org.example.microviaje.DTO.ReporteMonopatinPorCantViajesPorAnioDTO;
 import org.example.microviaje.DTO.ViajeRequestDTO;
 import org.example.microviaje.DTO.ViajeResponseDTO;
@@ -18,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.Month;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -134,34 +134,67 @@ public class ViajeService {
         Viaje viaje = viajeRepository.findById(id).orElseThrow(
                 () -> new NotFoundException("El viaje con ID " + id + " no fue encontrado")
         );
-        //TIEMPO EN PAUSA
-        Duration duracionPausa = Duration.between(viaje.getIncioEnPausa(), viaje.getFinEnPausa());
-        long minutosPausa = duracionPausa.toMinutes();
 
         //TIEMPO DE VIAJE
-
-        Duration duracionViaje = Duration.between(viaje.getInicio(), viaje.getFin());
-        long minutosViaje = duracionViaje.toMinutes();
-
-
-
-
-        Float tarifa;
-
-        if (minutosPausa >= 15) {
-            tarifa = administradorfeignClient.getTarifaEspecial(viaje.getFin());
-
-
-        } else {
-            tarifa = administradorfeignClient.getTarifaComun(viaje.getFin());
-
+        Float minutosViaje = 0.F;
+        LocalDateTime inicioDeViaje = viaje.getInicio();
+        LocalDateTime finDeViaje = viaje.getFin();
+        if(inicioDeViaje!=null && finDeViaje!=null) {
+            Duration duracionViaje = Duration.between(inicioDeViaje, finDeViaje);
+            minutosViaje =Float.valueOf(duracionViaje.toMinutes());
         }
-        Float precioActualizado = minutosViaje * tarifa;
+
+
+
+        //TIEMPO EN PAUSA
+        LocalDateTime tiempoEnPausaInicio=viaje.getIncioEnPausa();
+        LocalDateTime tiempoEnpausaFin = viaje.getFinEnPausa();
+
+        Float minutosPausa = 0.0f;
+        if(tiempoEnPausaInicio!=null && tiempoEnpausaFin!=null) {
+            Duration duracionPausa = Duration.between(tiempoEnPausaInicio, tiempoEnpausaFin);
+            minutosPausa = Float.valueOf(duracionPausa.toMinutes());
+        }
+
+
+
+        Float tarifa = 0.0F;
+
+        try {
+            System.out.println(finDeViaje);
+            String fechaFormateada = finDeViaje.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+
+            if (minutosPausa >= 15) {
+
+
+                 tarifa = administradorfeignClient.getTarifaEspecial(fechaFormateada);
+                System.out.println(tarifa);
+
+            } else {
+                Float aux = administradorfeignClient.getTarifaComun(fechaFormateada);
+                System.out.println(aux);
+                tarifa = aux;
+            }
+
+            // Asegúrate de que no quede en null
+            if (tarifa == null) {
+                tarifa = 0.0F; // Valor por defecto
+            }
+
+        } catch (Exception e) {
+            System.err.println("Error al obtener la tarifa: " + e.getMessage());
+            tarifa = 0.0F; // Asignar un valor por defecto en caso de error
+        }
+
+        System.out.println("Tarifa final: " + tarifa);
+
+        float precioActualizado = minutosViaje * tarifa;
         viaje.setPrecioTotal(precioActualizado);
         viajeRepository.save(viaje);
         return this.mapToViajeResponseDTO(viaje);
 
     }
+
 
     private Float calcularDistanciaKilometros(Long lat1, Long lon1, Long lat2, Long lon2) {
 
