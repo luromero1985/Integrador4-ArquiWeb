@@ -5,6 +5,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.gateway.security.jwt.JwtFilter;
 import org.example.gateway.security.jwt.TokenProvider;
+import org.example.gateway.service.login.LoginDTO;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

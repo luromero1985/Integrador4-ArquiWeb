@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.gateway.entity.User;
 import org.example.gateway.repository.AuthorityRepository;
 import org.example.gateway.repository.UserRepository;
+import org.example.gateway.service.login.UserDTO;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
