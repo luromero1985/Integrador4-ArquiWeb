@@ -1,0 +1,200 @@
+openapi: 3.0.1
+info:
+  title: Facturación API
+  description: API para la gestión de facturación, incluyendo reportes y operaciones CRUD.
+  version: "1.0.0"
+servers:
+  - url: http://localhost:8040
+    description: Servidor local para desarrollo
+paths:
+  /facturacion:
+    get:
+      summary: Obtener todas las facturaciones
+      responses:
+        '200':
+          description: Lista de facturaciones
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FacturacionResponseDTO'
+
+    post:
+      summary: Crear una nueva facturación
+      requestBody:
+        description: Datos de la nueva facturación
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FacturacionRequestDTO'
+      responses:
+        '200':
+          description: Facturación creada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FacturacionResponseDTO'
+
+  /facturacion/{id}:
+    get:
+      summary: Obtener una facturación por ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Facturación encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FacturacionResponseDTO'
+        '404':
+          description: Facturación no encontrada
+
+    put:
+      summary: Actualizar una facturación
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        description: Datos actualizados de la facturación
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FacturacionRequestDTO'
+      responses:
+        '200':
+          description: Facturación actualizada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FacturacionResponseDTO'
+        '404':
+          description: Facturación no encontrada
+
+    delete:
+      summary: Eliminar una facturación
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Facturación eliminada
+        '404':
+          description: Facturación no encontrada
+
+  /facturacion/facturacionEntreFechas:
+    get:
+      summary: Obtener reporte de facturación entre meses de un año
+      parameters:
+        - name: mesInicio
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 1
+        - name: mesFinal
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 2
+        - name: anio
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 2023
+      responses:
+        '200':
+          description: Reporte de facturación generado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReporteFacturacionRangoDeMesesDTO'
+        '404':
+          description: No se encontraron datos para el rango especificado
+
+components:
+  schemas:
+    FacturacionRequestDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Identificador único de la facturación
+        latitud:
+          type: number
+          description: Latitud asociada a la facturación
+        longitud:
+          type: number
+          description: Longitud asociada a la facturación
+        precioFinal:
+          type: number
+          format: float
+          description: Precio final de la facturación
+        fechaFacturacion:
+          type: string
+          format: date
+          description: Fecha de la facturación
+      required:
+        - id
+        - latitud
+        - longitud
+        - precioFinal
+        - fechaFacturacion
+
+    FacturacionResponseDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Identificador único de la facturación
+        latitud:
+          type: number
+          description: Latitud asociada a la facturación
+        longitud:
+          type: number
+          description: Longitud asociada a la facturación
+        precioFinal:
+          type: number
+          format: float
+          description: Precio final de la facturación
+        fechaFacturacion:
+          type: string
+          format: date
+          description: Fecha de la facturación
+
+    ReporteFacturacionRangoDeMesesDTO:
+      type: object
+      properties:
+        precio:
+          type: number
+          format: float
+          description: Total facturado en el rango de meses
+        mesInicio:
+          type: integer
+          description: Mes inicial del rango
+        mesFinal:
+          type: integer
+          description: Mes final del rango
+        anio:
+          type: integer
+          description: Año correspondiente al rango
+      required:
+        - precio
+        - mesInicio
+        - mesFinal
+        - anio

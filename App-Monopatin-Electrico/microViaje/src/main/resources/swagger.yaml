@@ -1,0 +1,272 @@
+openapi: 3.0.0
+info:
+  title: Viaje API
+  version: 1.0.0
+  description: API para gestionar los viajes de los monopatines.
+
+servers:
+  - url: http://localhost:8000
+
+paths:
+  /viaje:
+    get:
+      summary: Obtener todos los viajes
+      responses:
+        '200':
+          description: Lista de viajes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ViajeResponseDTO'
+    post:
+      summary: Crear un nuevo viaje
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ViajeRequestDTO'
+      responses:
+        '200':
+          description: Viaje creado con éxito
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ViajeResponseDTO'
+
+  /viaje/{id}:
+    get:
+      summary: Obtener un viaje por su ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Detalle del viaje
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ViajeResponseDTO'
+        '404':
+          description: Viaje no encontrado
+    put:
+      summary: Actualizar un viaje por su ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ViajeRequestDTO'
+      responses:
+        '200':
+          description: Viaje actualizado con éxito
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ViajeResponseDTO'
+        '404':
+          description: Viaje no encontrado
+    delete:
+      summary: Eliminar un viaje por su ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Viaje eliminado con éxito
+        '404':
+          description: Viaje no encontrado
+
+  /viaje/determinarPrecio/{idViaje}:
+    put:
+      summary: Actualizar el precio de un viaje
+      parameters:
+        - name: idViaje
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Precio actualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ViajeResponseDTO'
+        '404':
+          description: Viaje no encontrado
+
+  /viaje/cantViajes/{cantViajes}/anio/{anio}:
+    get:
+      summary: Obtener reportes de monopatines según cantidad de viajes y año
+      parameters:
+        - name: cantViajes
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: anio
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Reporte generado con éxito
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ReporteMonopatinPorCantViajesPorAnioDTO'
+        '404':
+          description: Reporte no encontrado
+
+components:
+  schemas:
+    ViajeRequestDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: ID del viaje.
+        inicio:
+          type: string
+          format: date-time
+          description: Fecha y hora de inicio del viaje.
+        fin:
+          type: string
+          format: date-time
+          description: Fecha y hora de fin del viaje.
+        latitudInicio:
+          type: integer
+          description: Latitud de inicio del viaje.
+        longitudInicio:
+          type: integer
+          description: Longitud de inicio del viaje.
+        latitudFin:
+          type: integer
+          description: Latitud de fin del viaje.
+        longitudFin:
+          type: integer
+          description: Longitud de fin del viaje.
+        id_usuario:
+          type: integer
+          description: ID del usuario que realiza el viaje.
+        id_monopatin:
+          type: integer
+          description: ID del monopatín utilizado en el viaje.
+        incioEnPausa:
+          type: string
+          format: date-time
+          description: Fecha y hora de inicio de la pausa durante el viaje.
+        finEnPausa:
+          type: string
+          format: date-time
+          description: Fecha y hora de fin de la pausa durante el viaje.
+        precioTotal:
+          type: number
+          format: float
+          description: Precio total del viaje.
+      required:
+        - id
+        - inicio
+        - fin
+        - latitudInicio
+        - longitudInicio
+        - latitudFin
+        - longitudFin
+        - id_usuario
+        - id_monopatin
+        - incioEnPausa
+        - finEnPausa
+        - precioTotal
+
+    ViajeResponseDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: ID del viaje.
+        inicio:
+          type: string
+          format: date-time
+          description: Fecha y hora de inicio del viaje.
+        fin:
+          type: string
+          format: date-time
+          description: Fecha y hora de fin del viaje.
+        latitudInicio:
+          type: integer
+          description: Latitud de inicio del viaje.
+        longitudInicio:
+          type: integer
+          description: Longitud de inicio del viaje.
+        latitudFin:
+          type: integer
+          description: Latitud de fin del viaje.
+        longitudFin:
+          type: integer
+          description: Longitud de fin del viaje.
+        id_usuario:
+          type: integer
+          description: ID del usuario que realiza el viaje.
+        id_monopatin:
+          type: integer
+          description: ID del monopatín utilizado en el viaje.
+        incioEnPausa:
+          type: string
+          format: date-time
+          description: Fecha y hora de inicio de la pausa durante el viaje.
+        finEnPausa:
+          type: string
+          format: date-time
+          description: Fecha y hora de fin de la pausa durante el viaje.
+        precioTotal:
+          type: number
+          format: float
+          description: Precio total del viaje.
+      required:
+        - id
+        - inicio
+        - fin
+        - latitudInicio
+        - longitudInicio
+        - latitudFin
+        - longitudFin
+        - id_usuario
+        - id_monopatin
+        - incioEnPausa
+        - finEnPausa
+        - precioTotal
+
+    ReporteMonopatinPorCantViajesPorAnioDTO:
+      type: object
+      properties:
+        id_monopatin:
+          type: integer
+          description: ID del monopatín.
+        cantViajes:
+          type: integer
+          description: Cantidad de viajes realizados con ese monopatín.
+        anio:
+          type: integer
+          description: Año en el que se realizó el reporte.
+      required:
+        - id_monopatin
+        - cantViajes
+        - anio

@@ -1,0 +1,183 @@
+openapi: 3.0.0
+info:
+  title: Usuario API
+  version: 1.0.0
+  description: API para gestionar usuarios de la aplicacion de monopatines
+
+servers:
+  - url: http://localhost:8010
+
+paths:
+  /usuario:
+    get:
+      summary: Obtener todos los usuarios
+      responses:
+        '200':
+          description: Respuesta exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UsuarioResponseDTO'
+    post:
+      summary: Crear un nuevo usuario
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UsuarioRequestDTO'
+      responses:
+        '200':
+          description: Usuario creado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsuarioResponseDTO'
+
+  /usuario/{id}:
+    get:
+      summary: Obtener un usuario específico
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Respuesta exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsuarioResponseDTO'
+        '404':
+          description: Usuario no encontrado
+    put:
+      summary: Actualizar un usuario existente
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UsuarioRequestDTO'
+      responses:
+        '200':
+          description: Usuario actualizado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsuarioResponseDTO'
+        '404':
+          description: Usuario no encontrado
+    delete:
+      summary: Eliminar un usuario
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Usuario eliminado exitosamente
+        '404':
+          description: Usuario no encontrado
+
+  /usuario/reporteG/latitud/{latitud}/longitud/{longitud}/rango/{rango}:
+    get:
+      summary: Obtener monopatines cercanos
+      parameters:
+        - name: latitud
+          in: path
+          required: true
+          schema:
+            type: number
+        - name: longitud
+          in: path
+          required: true
+          schema:
+            type: number
+        - name: rango
+          in: path
+          required: true
+          schema:
+            type: number
+      responses:
+        '200':
+          description: Reporte generado exitosamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ReporteMonopatinesCercanosDTO'
+        '404':
+          description: No se encontraron monopatines cercanos
+
+components:
+  schemas:
+    UsuarioRequestDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+        nombre:
+          type: string
+        apellido:
+          type: string
+        email:
+          type: string
+        telefono:
+          type: string
+        latitud:
+          type: number
+        longitud:
+          type: number
+      required:
+        - id
+        - nombre
+        - apellido
+        - email
+        - telefono
+        - latitud
+        - longitud
+
+    UsuarioResponseDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+        nombre:
+          type: string
+        apellido:
+          type: string
+        email:
+          type: string
+        telefono:
+          type: string
+        latitud:
+          type: number
+        longitud:
+          type: number
+
+    ReporteMonopatinesCercanosDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+        latitud:
+          type: number
+        longitud:
+          type: number
+      required:
+        - id
+        - latitud
+        - longitud

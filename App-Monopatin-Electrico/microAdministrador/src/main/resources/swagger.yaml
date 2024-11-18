@@ -1,0 +1,415 @@
+openapi: 3.0.0
+info:
+  title: API de Administrador
+  description: API para la gestión administrativa de monopatines, cuentas y tarifas.
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8070/
+    description: Servidor local de desarrollo
+
+paths:
+  /administrador:
+    get:
+      summary: Obtener todos los administradores
+      responses:
+        '200':
+          description: Lista de administradores
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AdministradorResponseDTO'
+
+    post:
+      summary: Crear un nuevo administrador
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdministradorRequestDTO'
+      responses:
+        '200':
+          description: Administrador creado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdministradorResponseDTO'
+
+  /administrador/{id}:
+    get:
+      summary: Obtener un administrador por ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Detalles del administrador
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdministradorResponseDTO'
+
+    put:
+      summary: Actualizar un administrador por ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdministradorRequestDTO'
+      responses:
+        '200':
+          description: Administrador actualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdministradorResponseDTO'
+
+    delete:
+      summary: Eliminar un administrador por ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Administrador eliminado
+
+  /administrador/tarifaComunParaFecha/{fecha}:
+    get:
+      summary: Obtener tarifa común para una fecha
+      parameters:
+        - name: fecha
+          in: path
+          required: true
+          schema:
+            type: string
+            format: date-time
+      responses:
+        '200':
+          description: Tarifa común
+          content:
+            application/json:
+              schema:
+                type: number
+                format: float
+
+  /administrador/tarifaEspecialParaFecha/{fecha}:
+    get:
+      summary: Obtener tarifa especial para una fecha
+      parameters:
+        - name: fecha
+          in: path
+          required: true
+          schema:
+            type: string
+            format: date-time
+      responses:
+        '200':
+          description: Tarifa especial
+          content:
+            application/json:
+              schema:
+                type: number
+                format: float
+
+  /administrador/reporteA/{id}:
+    get:
+      summary: Generar reporte de mantenimiento para un monopatín
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: includePausa
+          in: query
+          required: false
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: Reporte de mantenimiento generado
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ReporteMonopatinMantDTO'
+
+  /administrador/idcuenta/{id}/estado/{estado}:
+    put:
+      summary: Cambiar estado de una cuenta
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: estado
+          in: path
+          required: true
+          schema:
+            type: boolean
+      responses:
+        '204':
+          description: Estado actualizado
+
+  /administrador/reporteC/cantViajes/{cantViajes}/anio/{anio}:
+    get:
+      summary: Consultar monopatines con más de X viajes en un año
+      parameters:
+        - name: cantViajes
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: anio
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Reporte de monopatines generado
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ReporteMonopatinPorCantViajesPorAnioDTO'
+
+  /administrador/reporteD:
+    get:
+      summary: Consultar facturación en un rango de meses
+      parameters:
+        - name: mesInicio
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 1
+        - name: mesFinal
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 2
+        - name: anio
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 2023
+      responses:
+        '200':
+          description: Reporte de facturación generado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReporteFacturacionRangoDeMesesDTO'
+
+  /administrador/reporteE:
+    get:
+      summary: Consultar estado de los monopatines
+      responses:
+        '200':
+          description: Estado de los monopatines
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EstadoDeMonopatinesDTO'
+
+
+components:
+  schemas:
+    AdministradorRequestDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: ID del administrador.
+        precio:
+          type: number
+          format: float
+          description: Precio estándar.
+        precioEspecial:
+          type: number
+          format: float
+          description: Precio especial.
+        fecha:
+          type: string
+          format: date-time
+          description: Fecha de registro.
+        topeKm:
+          type: integer
+          description: Tope de kilómetros permitido.
+
+    AdministradorResponseDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: ID del administrador.
+        precio:
+          type: number
+          format: float
+          description: Precio estándar.
+        precioEspecial:
+          type: number
+          format: float
+          description: Precio especial.
+        fecha:
+          type: string
+          format: date-time
+          description: Fecha de registro.
+        topeKm:
+          type: integer
+          description: Tope de kilómetros permitido.
+
+    ReporteFacturacionRangoDeMesesDTO:
+      type: object
+      properties:
+        precio:
+          type: number
+          format: float
+          description: Precio facturado.
+        mesInicio:
+          type: integer
+          description: Mes inicial del rango.
+        mesFinal:
+          type: integer
+          description: Mes final del rango.
+        anio:
+          type: integer
+          description: Año del reporte.
+
+    ReporteMonopatinMantenimientoDTO:
+      type: object
+      properties:
+        idMonopatin:
+          type: integer
+          description: ID del monopatín.
+        kmTotales:
+          type: integer
+          description: Kilómetros totales recorridos.
+        topeKm:
+          type: integer
+          description: Tope de kilómetros para determinar mantenimiento.
+        necesitaMantenimiento:
+          type: boolean
+          description: Indica si el monopatín requiere mantenimiento.
+
+    ReporteMonopatinMantenimientoConPausaDTO:
+      type: object
+      properties:
+        idMonopatin:
+          type: integer
+          description: ID del monopatín.
+        kmTotales:
+          type: integer
+          description: Kilómetros totales recorridos.
+        topeKm:
+          type: integer
+          description: Tope de kilómetros para determinar mantenimiento.
+        necesitaMantenimiento:
+          type: boolean
+          description: Indica si el monopatín requiere mantenimiento.
+        tiempoEnPausa:
+          type: integer
+          description: Tiempo total en pausa.
+
+    ReporteMonopatinPorCantViajesPorAnioDTO:
+      type: object
+      properties:
+        id_monopatin:
+          type: integer
+          description: ID del monopatín.
+        cantViajes:
+          type: integer
+          description: Cantidad de viajes realizados.
+        anio:
+          type: integer
+          description: Año en el que se realizaron los viajes.
+
+    FacturacionParamDTO:
+      type: object
+      properties:
+        mesInicio:
+          type: integer
+          description: Mes de inicio.
+        mesFin:
+          type: integer
+          description: Mes de fin.
+        anio:
+          type: integer
+          description: Año correspondiente al rango.
+
+    MonopatinDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: ID del monopatín.
+        kmTotales:
+          type: integer
+          description: Kilómetros totales recorridos.
+        latitud:
+          type: number
+          format: float
+          description: Latitud de ubicación.
+        longitud:
+          type: number
+          format: float
+          description: Longitud de ubicación.
+        enMantenimiento:
+          type: boolean
+          description: Indica si el monopatín está en mantenimiento.
+        kmParaMantenimiento:
+          type: integer
+          description: Kilómetros necesarios para mantenimiento.
+        tiempoDeUso:
+          type: integer
+          description: Tiempo total de uso (en minutos).
+        tiempoEnPausa:
+          type: integer
+          description: Tiempo total en pausa (en minutos).
+    EstadoDeMonopatinesDTO:
+      type: object
+      properties:
+        estadoGeneral:
+          type: string
+          description:
+            Estado general de los monopatines (por ejemplo: "operativo", "en mantenimiento")
+        cantidadOperativa:
+          type: integer
+          description: Cantidad de monopatines operativos
+        cantidadMantenimiento:
+          type: integer
+          description: Cantidad de monopatines en mantenimiento
+
+    ReporteMonopatinMantDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+        kmParaMantenimiento:
+          type: integer
+        topeKm:
+          type: integer
+        necesitaMantenimiento:
+          type: boolean

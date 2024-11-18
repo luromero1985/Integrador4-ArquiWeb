@@ -1,0 +1,181 @@
+openapi: 3.0.0
+info:
+  title: API de Gestión de Cuentas
+  version: 1.0.0
+  description: |
+    API para administrar las cuentas de los usuarios, incluyendo creación, actualización, eliminación y consulta de cuentas.
+
+servers:
+  - url: http://localhost:8060/
+    description: Servidor local de desarrollo
+
+paths:
+  /cuenta:
+    get:
+      summary: Obtener todas las cuentas
+      responses:
+        '200':
+          description: Lista de cuentas obtenida exitosamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CuentaResponseDTO'
+    post:
+      summary: Crear una nueva cuenta
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CuentaRequestDTO'
+      responses:
+        '200':
+          description: Cuenta creada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CuentaResponseDTO'
+
+  /cuenta/{id}:
+    get:
+      summary: Obtener una cuenta por ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Cuenta encontrada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CuentaResponseDTO'
+        '404':
+          description: Cuenta no encontrada
+    put:
+      summary: Actualizar una cuenta
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CuentaRequestDTO'
+      responses:
+        '200':
+          description: Cuenta actualizada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CuentaResponseDTO'
+        '404':
+          description: Cuenta no encontrada
+    delete:
+      summary: Eliminar una cuenta
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Cuenta eliminada exitosamente
+        '404':
+          description: Cuenta no encontrada
+
+  /cuenta/cuentaPorUsuario/{idUsuario}:
+    get:
+      summary: Obtener cuentas por ID de usuario
+      parameters:
+        - name: idUsuario
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID del usuario
+      responses:
+        '200':
+          description: Cuentas encontradas exitosamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CuentaResponseDTO'
+
+  /cuenta/id/{id}/activa/{activa}:
+    put:
+      summary: Actualizar el estado de una cuenta
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID de la cuenta
+        - name: activa
+          in: path
+          required: true
+          schema:
+            type: boolean
+          description: Nuevo estado de la cuenta (true para activa, false para inactiva)
+      responses:
+        '200':
+          description: Estado de la cuenta actualizado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CuentaResponseDTO'
+        '404':
+          description: Cuenta no encontrada
+
+components:
+  schemas:
+    CuentaRequestDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          nullable: false
+        id_usuario:
+          type: integer
+          nullable: false
+        fechaAlta:
+          type: string
+          format: date
+          nullable: false
+        saldo:
+          type: number
+          format: float
+        activa:
+          type: boolean
+      required:
+        - id
+        - id_usuario
+        - fechaAlta
+
+    CuentaResponseDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+        id_usuario:
+          type: integer
+        fechaAlta:
+          type: string
+          format: date
+        saldo:
+          type: number
+          format: float
+        activa:
+          type: boolean

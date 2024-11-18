@@ -1,0 +1,341 @@
+openapi: 3.0.1
+info:
+  title: API Monopatin
+  description: API para la gestión de monopatines, incluyendo reportes y estado.
+  version: "1.0.0"
+servers:
+  - url: http://localhost:8020
+    description: Servidor local para desarrollo
+
+paths:
+  /monopatin:
+    get:
+      summary: Obtener todos los monopatines
+      responses:
+        '200':
+          description: Lista de monopatines
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MonopatinResponseDTO'
+
+    post:
+      summary: Crear un nuevo monopatín
+      requestBody:
+        description: Datos del nuevo monopatín
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MonopatinRequestDTO'
+      responses:
+        '200':
+          description: Monopatín creado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonopatinResponseDTO'
+
+  /monopatin/{id}:
+    get:
+      summary: Obtener un monopatín por ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Monopatín encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonopatinResponseDTO'
+        '404':
+          description: Monopatín no encontrado
+
+    put:
+      summary: Actualizar un monopatín
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        description: Datos actualizados del monopatín
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MonopatinRequestDTO'
+      responses:
+        '200':
+          description: Monopatín actualizado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonopatinResponseDTO'
+        '404':
+          description: Monopatín no encontrado
+
+    delete:
+      summary: Eliminar un monopatín
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Monopatín eliminado
+        '404':
+          description: Monopatín no encontrado
+
+  /monopatin/reportes/kilometraje:
+    get:
+      summary: Obtener reporte de kilometraje
+      responses:
+        '200':
+          description: Reporte de kilometraje
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ReporteKilometrajeDTO'
+        '204':
+          description: Sin contenido
+
+  /monopatin/monopatines-cercanos/latitud/{latitud}/longitud/{longitud}/rango/{rango}:
+    get:
+      summary: Obtener monopatines cercanos
+      parameters:
+        - name: latitud
+          in: path
+          required: true
+          schema:
+            type: number
+            format: double
+        - name: longitud
+          in: path
+          required: true
+          schema:
+            type: number
+            format: double
+        - name: rango
+          in: path
+          required: true
+          schema:
+            type: number
+            format: double
+      responses:
+        '200':
+          description: Lista de monopatines cercanos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ReporteMonopatinesCercanosDTO'
+        '404':
+          description: Información no encontrada
+
+  /monopatin/monopatines-mantenimiento:
+    get:
+      summary: Obtener reporte de monopatines en mantenimiento
+      responses:
+        '200':
+          description: Reporte de monopatines en mantenimiento
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ReporteMonopatinMantenimientoDTO'
+        '204':
+          description: Sin contenido
+
+
+
+  /monopatin/reportes/tiempo-con-pausas:
+    get:
+      summary: Obtener reporte de tiempo con pausa
+      responses:
+        '200':
+          description: Reporte de tiempo con pausa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ReporteTiempoConPausaDTO'
+        '204':
+          description: Sin contenido
+
+  /monopatin/reportes/tiempo-sin-pausas:
+    get:
+      summary: Obtener reporte de tiempo sin pausa
+      responses:
+        '200':
+          description: Reporte de tiempo sin pausa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ReporteTiempoSinPausaDTO'
+        '204':
+          description: Sin contenido
+
+  /monopatin/id/{id}/mantenimiento/{enMantenimiento}:
+    put:
+      summary: Actualizar el estado de mantenimiento de un monopatín
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: enMantenimiento
+          in: path
+          required: true
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: Monopatín actualizado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonopatinResponseDTO'
+        '404':
+          description: Monopatín no encontrado
+
+
+
+
+components:
+  schemas:
+    MonopatinRequestDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+        kmTotales:
+          type: integer
+        latitud:
+          type: number
+          format: float
+        longitud:
+          type: number
+          format: float
+        enMantenimiento:
+          type: boolean
+        kmParaMantenimiento:
+          type: integer
+        tiempoDeUso:
+          type: integer
+        tiempoEnPausa:
+          type: integer
+
+    MonopatinResponseDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+        kmTotales:
+          type: integer
+        latitud:
+          type: number
+          format: float
+        longitud:
+          type: number
+          format: float
+        enMantenimiento:
+          type: boolean
+        kmParaMantenimiento:
+          type: integer
+        tiempoDeUso:
+          type: integer
+        tiempoEnPausa:
+          type: integer
+
+    ReporteKilometrajeDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+        kilometrajeTotal:
+          type: integer
+
+    ReporteMonopatinesCercanosDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+        latitud:
+          type: number
+          format: float
+        longitud:
+          type: number
+          format: float
+
+    ReporteMonopatinMantenimientoDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+        kmParaMantenimiento:
+          type: integer
+        topeKm:
+          type: integer
+        necesitaMantenimiento:
+          type: boolean
+
+    ReporteMonopatinMantenimientoConPausaDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+        kmParaMantenimiento:
+          type: integer
+        topeKm:
+          type: integer
+        necesitaMantenimiento:
+          type: boolean
+        tiempoEnPausa:
+          type: integer
+
+    ReporteTiempoConPausaDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+        tiempoEnPausa:
+          type: integer
+
+    ReporteTiempoSinPausaDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+        tiempoSinPausas:
+          type: integer
+
+    EstadoDeMonopatinesDTO:
+      type: object
+      properties:
+        estadoGeneral:
+          type: string
+          description:
+        cantidadOperativa:
+          type: integer
+          description: Cantidad de monopatines operativos
+        cantidadMantenimiento:
+          type: integer
+          description: Cantidad de monopatines en mantenimiento

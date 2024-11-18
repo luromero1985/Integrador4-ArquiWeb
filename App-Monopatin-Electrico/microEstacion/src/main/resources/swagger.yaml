@@ -1,0 +1,123 @@
+openapi: 3.0.0
+info:
+  title: API de Gestión de Estaciones
+  version: 1.0.0
+  description: |
+    API para administrar estaciones, incluyendo creación, actualización, eliminación y consulta de estaciones.
+
+servers:
+  - url: http://localhost:8050/
+    description: Servidor local de desarrollo
+
+paths:
+  /estacion:
+    get:
+      summary: Obtener todas las estaciones
+      responses:
+        '200':
+          description: Lista de estaciones obtenida exitosamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EstacionResponseDTO'
+    post:
+      summary: Crear una nueva estación
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EstacionRequestDTO'
+      responses:
+        '200':
+          description: Estación creada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EstacionResponseDTO'
+
+  /estacion/{id}:
+    get:
+      summary: Obtener una estación por ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Estación encontrada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EstacionResponseDTO'
+        '404':
+          description: Estación no encontrada
+    put:
+      summary: Actualizar una estación
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EstacionRequestDTO'
+      responses:
+        '200':
+          description: Estación actualizada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EstacionResponseDTO'
+        '404':
+          description: Estación no encontrada
+    delete:
+      summary: Eliminar una estación
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Estación eliminada exitosamente
+        '404':
+          description: Estación no encontrada
+
+components:
+  schemas:
+    EstacionRequestDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          nullable: false
+        latitud:
+          type: number
+          nullable: false
+        longitud:
+          type: number
+          nullable: false
+      required:
+        - id
+        - latitud
+        - longitud
+
+    EstacionResponseDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+        latitud:
+          type: number
+        longitud:
+          type: number
