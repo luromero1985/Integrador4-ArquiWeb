@@ -1,7 +1,6 @@
 package org.example.microviaje.controllers;
 
 
-
 import org.example.microviaje.DTO.ReporteMonopatinPorCantViajesPorAnioDTO;
 import org.example.microviaje.DTO.ViajeRequestDTO;
 import org.example.microviaje.DTO.ViajeResponseDTO;
@@ -27,32 +26,29 @@ public class ViajeController {
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<ViajeResponseDTO> findById(@PathVariable Long id){
+    public ResponseEntity<ViajeResponseDTO> findById(@PathVariable Long id) {
         try {
             return ResponseEntity.ok(this.viajeService.findById(id));
-        }
-        catch(NotFoundException e){
+        } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();
         }
     }
 
 
     @PostMapping("")
-    public ResponseEntity<ViajeResponseDTO> save(@RequestBody ViajeRequestDTO viaje){
+    public ResponseEntity<ViajeResponseDTO> save(@RequestBody ViajeRequestDTO viaje) {
         ViajeResponseDTO newUsuario = viajeService.save(viaje);
         return ResponseEntity.ok(newUsuario);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ViajeResponseDTO> update(@PathVariable Long id, @RequestBody ViajeRequestDTO viajeRequestDTO){
-        try{
-            return ResponseEntity.ok( this.viajeService.update(id, viajeRequestDTO));
-        }
-        catch( NotFoundException e){
+    public ResponseEntity<ViajeResponseDTO> update(@PathVariable Long id, @RequestBody ViajeRequestDTO viajeRequestDTO) {
+        try {
+            return ResponseEntity.ok(this.viajeService.update(id, viajeRequestDTO));
+        } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();
         }
     }
-
 
 
     @DeleteMapping("/{id}")
@@ -105,22 +101,20 @@ public class ViajeController {
 
 
     @PutMapping("/determinarPrecio/{idViaje}")
-    public ResponseEntity<ViajeResponseDTO> updatePrecio(@PathVariable("idViaje") Long idviaje){
+    public ResponseEntity<ViajeResponseDTO> updatePrecio(@PathVariable("idViaje") Long idviaje) {
         try {
             return ResponseEntity.ok(viajeService.updatePrecio(idviaje));
-        }
-        catch(NotFoundException e){
+        } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();
         }
 
     }
 
     @GetMapping("/cantViajes/{cantViajes}/anio/{anio}")
-    public ResponseEntity<List<ReporteMonopatinPorCantViajesPorAnioDTO>> getMonopatinByCantViajeYAnio(@PathVariable int cantViajes, @PathVariable int anio){
+    public ResponseEntity<List<ReporteMonopatinPorCantViajesPorAnioDTO>> getMonopatinByCantViajeYAnio(@PathVariable int cantViajes, @PathVariable int anio) {
         try {
             return ResponseEntity.ok(this.viajeService.getMonopatinByCantViajeYAnio(cantViajes, anio));
-        }
-        catch(NotFoundException e){
+        } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();
         }
     }
