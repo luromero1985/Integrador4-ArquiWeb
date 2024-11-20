@@ -134,13 +134,16 @@ paths:
         - name: id
           in: path
           required: true
+          description: ID del monopatín
           schema:
             type: integer
         - name: includePausa
           in: query
           required: false
+          description: Incluir tiempo en pausa en el reporte
           schema:
             type: boolean
+            default: false
       responses:
         '200':
           description: Reporte de mantenimiento generado
@@ -150,6 +153,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ReporteMonopatinMantDTO'
+        '404':
+          description: Monopatín no encontrado
 
   /administrador/idcuenta/{id}/estado/{estado}:
     put:
@@ -393,8 +398,7 @@ components:
       properties:
         estadoGeneral:
           type: string
-          description:
-            Estado general de los monopatines (por ejemplo: "operativo", "en mantenimiento")
+          description: 'Estado general de los monopatines (por ejemplo: "operativo", "en mantenimiento")'
         cantidadOperativa:
           type: integer
           description: Cantidad de monopatines operativos
