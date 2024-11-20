@@ -153,11 +153,11 @@ class FacturacionControllerTest {
 
         verify(facturacionService, times(1)).delete(1L);
     }
-
     @Test
     @DisplayName("Generar reporte de facturación por rango de meses")
     void testGenerarReporteDeFacturacion() {
-        ReporteFacturacionRangoDeMesesDTO reporteMock = new ReporteFacturacionRangoDeMesesDTO(700.25f);
+
+        ReporteFacturacionRangoDeMesesDTO reporteMock = new ReporteFacturacionRangoDeMesesDTO(700.25f, 1, 2, 2023);
 
         when(facturacionService.generarReporteDeFacturacion(1, 2, 2023)).thenReturn(reporteMock);
 
@@ -165,9 +165,10 @@ class FacturacionControllerTest {
 
         assertEquals(200, response.getStatusCodeValue());
         assertNotNull(response.getBody());
-        assertEquals(700.25f, response.getBody().getMontoTotal());
+        assertEquals(700.25f, response.getBody().getPrecio());
 
         verify(facturacionService, times(1)).generarReporteDeFacturacion(1, 2, 2023);
     }
+
 }
 
