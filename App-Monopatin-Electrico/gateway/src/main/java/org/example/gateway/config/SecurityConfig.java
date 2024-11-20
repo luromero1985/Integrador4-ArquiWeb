@@ -27,7 +27,9 @@ public class SecurityConfig {
     public SecurityConfig( TokenProvider tokenProvider ) {
         this.tokenProvider = tokenProvider;
     }
-
+/*
+* El password debe encriptarse antes de almacenarlo en la base de datos para garantizar
+*  la seguridad. Spring Security ofrece el PasswordEncoder*/
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

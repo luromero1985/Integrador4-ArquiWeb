@@ -11,6 +11,7 @@ import lombok.*;
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
+//Esta clase define los roles que tendrá un usuario.
 public class Authority {
 
     @Id

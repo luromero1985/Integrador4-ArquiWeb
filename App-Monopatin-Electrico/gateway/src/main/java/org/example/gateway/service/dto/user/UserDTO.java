@@ -1,4 +1,4 @@
-package org.example.gateway.service.login;
+package org.example.gateway.service.dto.user;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;

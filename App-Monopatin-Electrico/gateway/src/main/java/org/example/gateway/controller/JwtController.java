@@ -5,7 +5,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.gateway.security.jwt.JwtFilter;
 import org.example.gateway.security.jwt.TokenProvider;
-import org.example.gateway.service.login.LoginDTO;
+import org.example.gateway.service.dto.login.LoginDTO;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +27,7 @@ public class JwtController {
     private final TokenProvider tokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
-    @PostMapping()
+    @PostMapping("")
     public ResponseEntity<JWTToken> authorize(@Valid @RequestBody LoginDTO request ) {
 
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
