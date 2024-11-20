@@ -157,17 +157,20 @@ class FacturacionControllerTest {
     @Test
     @DisplayName("Generar reporte de facturación por rango de meses")
     void testGenerarReporteDeFacturacion() {
-        ReporteFacturacionRangoDeMesesDTO reporteMock = new ReporteFacturacionRangoDeMesesDTO(700.25f);
+        // Ajusta el constructor para incluir todos los campos requeridos
+        ReporteFacturacionRangoDeMesesDTO reporteMock = new ReporteFacturacionRangoDeMesesDTO(700.25f, 1, 2, 2023);
 
         when(facturacionService.generarReporteDeFacturacion(1, 2, 2023)).thenReturn(reporteMock);
 
         ResponseEntity<ReporteFacturacionRangoDeMesesDTO> response = facturacionController.getFacturacionEntreMesesDeUnAnio(1, 2, 2023);
 
+        // Cambia `getMontoTotal()` a `getPrecio()`
         assertEquals(200, response.getStatusCodeValue());
         assertNotNull(response.getBody());
-        assertEquals(700.25f, response.getBody().getMontoTotal());
+        assertEquals(700.25f, response.getBody().getPrecio());
 
         verify(facturacionService, times(1)).generarReporteDeFacturacion(1, 2, 2023);
     }
+
 }
 

@@ -45,57 +45,53 @@ public class SecurityConfig {
                  *  El servidor no mantiene estado sobre las solicitudes, es decir, que cada solicitud necesita
                  * ser autenticada de manera independiente mediante el token JWT.*/
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .securityMatcher("/**")
+
                 .authorizeHttpRequests(authz -> authz
                         /*Rutas públicas. Esto permite que las rutas de autenticación y registro de usuario sean accesibles
                         * sin autenticación previa, lo cual es necesario para que los usuarios puedan registrarse y obtener su token JWT.
                         */
-                         .requestMatchers(HttpMethod.POST, "/authenticate", "/usuario/registro").permitAll()
-                        /*
-                        * Microservicio Usuario. Nos aseguramos que los usuarios autenticados (con el rol adecuado) pueden
-                        * acceder a los datos de usuario.
-                        *  Solo el rol de ADMIN puede crear o modificar usuarios.
-                        * */
-                        .requestMatchers(HttpMethod.GET, "/usuario/**").hasAnyAuthority(AuthotityConstant._USUARIO, AuthotityConstant._ADMIN)
-                        .requestMatchers(HttpMethod.POST, "/usuario/**").hasAuthority(AuthotityConstant._ADMIN)
-
-                        /* Microservicio Administrador. Las rutas de administración están restringidas exclusivamente
-                        a los administradores.
-                        * */
-                        .requestMatchers("/administrador/**").hasAuthority(AuthotityConstant._ADMIN)
-
-                        /* Microservicio Monopatín. Los usuarios pueden consultar los monopatines, pero solo los usuarios
-                        con el rol de MANTENIMIENTO puedan agregar, quitar o poner en mantenimiento los monopatines.
-                        * */
-                        .requestMatchers(HttpMethod.GET, "/monopatin/**").hasAnyAuthority(AuthotityConstant._USUARIO, AuthotityConstant._ADMIN)
-                        .requestMatchers(HttpMethod.POST, "/monopatin").hasAuthority(AuthotityConstant._MANTENIMIENTO)
-                        .requestMatchers(HttpMethod.PUT, "/monopatin/mantenimiento/**").hasAuthority(AuthotityConstant._MANTENIMIENTO)
-
-                        /* Microservicio Cuenta
-                        * Solo los administradores puedan anular cuentas.
-                        * Las operaciones relacionadas con cuentas estan protegidas por autenticación.*/
-                        .requestMatchers(HttpMethod.GET, "/cuenta/**").authenticated()
-                        .requestMatchers(HttpMethod.POST, "/cuenta/anular").hasAuthority(AuthotityConstant._ADMIN)
-                        .requestMatchers(HttpMethod.PUT, "/cuenta/**").authenticated()
-
-                        /* Microservicio Facturación.
-                        *  facturacion solo es accesible para los usuarios con el rol de ADMIN
-                        * */
-                        .requestMatchers("/facturacion/**").hasAuthority(AuthotityConstant._ADMIN)
-
-                        /* Microservicio Estación
-                        * Rutas GET accesibles para USUARIO y ADMIN
-                        * Rutas POST accesibles solo por ADMIN.
-                        *
-                        * */
-                        .requestMatchers(HttpMethod.GET, "/estacion/**").hasAnyAuthority(AuthotityConstant._USUARIO, AuthotityConstant._ADMIN)
-                        .requestMatchers(HttpMethod.POST, "/estacion/**").hasAuthority(AuthotityConstant._ADMIN)
-
-                        // Microservicio Viaje
-                        .requestMatchers("/viaje/**").hasAnyAuthority(AuthotityConstant._USUARIO, AuthotityConstant._ADMIN)
+//                        .requestMatchers(HttpMethod.POST, "/authenticate").permitAll()
+//                        .requestMatchers(HttpMethod.POST, "/auth/usuario").permitAll()
+//
+//
+//                        /* Microservicio Administrador. Las rutas de administración están restringidas exclusivamente
+//                        a los administradores.
+//                        * */
+//                        .requestMatchers("/administrador/**").hasAuthority(AuthotityConstant._ADMIN)
+//
+//                        /* Microservicio Monopatín. Los usuarios pueden consultar los monopatines, pero solo los usuarios
+//                        con el rol de MANTENIMIENTO puedan agregar, quitar o poner en mantenimiento los monopatines.
+//                        * */
+//                        .requestMatchers(HttpMethod.GET, "/monopatin/**").hasAnyAuthority(AuthotityConstant._USUARIO, AuthotityConstant._ADMIN)
+//                        .requestMatchers(HttpMethod.POST, "/monopatin").hasAuthority(AuthotityConstant._MANTENIMIENTO)
+//                        .requestMatchers(HttpMethod.PUT, "/monopatin/mantenimiento/**").hasAuthority(AuthotityConstant._MANTENIMIENTO)
+//
+//                        /* Microservicio Cuenta
+//                        * Solo los administradores puedan anular cuentas.
+//                        * Las operaciones relacionadas con cuentas estan protegidas por autenticación.*/
+//                        .requestMatchers(HttpMethod.GET, "/cuenta/**").authenticated()
+//                        .requestMatchers(HttpMethod.POST, "/cuenta/anular").hasAuthority(AuthotityConstant._ADMIN)
+//                        .requestMatchers(HttpMethod.PUT, "/cuenta/**").authenticated()
+//
+//                        /* Microservicio Facturación.
+//                        *  facturacion solo es accesible para los usuarios con el rol de ADMIN
+//                        * */
+//                        .requestMatchers("/facturacion/**").hasAuthority(AuthotityConstant._ADMIN)
+//
+//                        /* Microservicio Estación
+//                        * Rutas GET accesibles para USUARIO y ADMIN
+//                        * Rutas POST accesibles solo por ADMIN.
+//                        *
+//                        * */
+//                        .requestMatchers(HttpMethod.GET, "/estacion/**").hasAnyAuthority(AuthotityConstant._USUARIO, AuthotityConstant._ADMIN)
+//                        .requestMatchers(HttpMethod.POST, "/estacion/**").hasAuthority(AuthotityConstant._ADMIN)
+//
+//                        // Microservicio Viaje
+//                        .requestMatchers("/viaje/**").hasAnyAuthority(AuthotityConstant._USUARIO, AuthotityConstant._ADMIN)
 
                         // Cualquier otra solicitud debe estar autenticada
-                        .anyRequest().authenticated()
+                    //    .anyRequest().authenticated()
+                                .anyRequest().permitAll()
                 )
                 .httpBasic(Customizer.withDefaults())
                 .addFilterBefore(new JwtFilter(this.tokenProvider), UsernamePasswordAuthenticationFilter.class);
