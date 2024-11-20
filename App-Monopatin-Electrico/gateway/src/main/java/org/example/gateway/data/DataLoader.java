@@ -21,7 +21,6 @@ public class DataLoader implements CommandLineRunner {
         if (authorityRepository.count() == 0) {
             authorityRepository.save(new Authority("ADMIN"));
             authorityRepository.save(new Authority("USUARIO"));
-            authorityRepository.save(new Authority("MANTENIMIENTO"));
         }
     }
 }
