@@ -1,26 +1,24 @@
 package org.example.microestacion.entities;
 
-import jakarta.persistence.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.jetbrains.annotations.NotNull;
 import lombok.*;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 
-
-@Entity
+@Document(collection = "estacion") // Mapea a la colección "estaciones" en MongoDB
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class Estacion {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+
+    @Id // Identificador único para MongoDB
+    private String id;
+
     @NotNull
-    @NotEmpty
-    private Long latitud;
+    private Double latitud; // Usamos Double para representar coordenadas con decimales
+
     @NotNull
-    @NotEmpty
-    private Long longitud;
+    private Double longitud;
 }

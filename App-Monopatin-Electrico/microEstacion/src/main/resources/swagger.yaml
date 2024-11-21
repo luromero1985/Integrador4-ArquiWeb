@@ -46,7 +46,7 @@ paths:
           in: path
           required: true
           schema:
-            type: integer
+            type: string  # Cambio de integer a string
       responses:
         '200':
           description: Estación encontrada exitosamente
@@ -63,7 +63,7 @@ paths:
           in: path
           required: true
           schema:
-            type: integer
+            type: string  # Cambio de integer a string
       requestBody:
         required: true
         content:
@@ -86,7 +86,7 @@ paths:
           in: path
           required: true
           schema:
-            type: integer
+            type: string  # Cambio de integer a string
       responses:
         '204':
           description: Estación eliminada exitosamente
@@ -99,16 +99,17 @@ components:
       type: object
       properties:
         id:
-          type: integer
-          nullable: false
+          type: string  # Cambio de integer a string
+          nullable: true
         latitud:
           type: number
+          format: double  # Cambio a tipo double
           nullable: false
         longitud:
           type: number
+          format: double  # Cambio a tipo double
           nullable: false
       required:
-        - id
         - latitud
         - longitud
 
@@ -116,8 +117,10 @@ components:
       type: object
       properties:
         id:
-          type: integer
+          type: string  # Cambio de integer a string
         latitud:
           type: number
+          format: double  # Cambio a tipo double
         longitud:
           type: number
+          format: double  # Cambio a tipo double

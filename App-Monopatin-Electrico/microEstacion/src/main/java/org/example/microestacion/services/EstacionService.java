@@ -1,7 +1,5 @@
 package org.example.microestacion.services;
 
-
-import jakarta.transaction.Transactional;
 import org.example.microestacion.DTO.EstacionRequestDTO;
 import org.example.microestacion.DTO.EstacionResponseDTO;
 import org.example.microestacion.entities.Estacion;
@@ -10,6 +8,7 @@ import org.example.microestacion.services.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,55 +17,59 @@ public class EstacionService {
 
     @Autowired
     private EstacionRepository estacionRepository;
-
+    @Autowired
+    public EstacionService(EstacionRepository estacionRepository) {
+        this.estacionRepository = estacionRepository;
+    }
+    // Obtener todas las estaciones
     public List<EstacionResponseDTO> findAll() {
-        List<Estacion> estaciones = estacionRepository.findAll();
-        return estaciones.stream().map(this::mapToEstacionResponseDTO).collect(Collectors.toList());
+        return estacionRepository.findAll().stream()
+                .map(this::mapToEstacionResponseDTO)
+                .collect(Collectors.toList());
     }
 
-    public EstacionResponseDTO findById(Long id) {
-        Estacion estacion = estacionRepository.findById(id).orElseThrow(
-                () -> new NotFoundException("La estación con ID " + id + " no fue encontrada")
-        );
+    // Buscar estación por ID
+    public EstacionResponseDTO findById(String id) {
+        Estacion estacion = estacionRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("La estación con ID " + id + " no fue encontrada"));
         return mapToEstacionResponseDTO(estacion);
     }
 
-    @Transactional
-    public EstacionResponseDTO save(EstacionRequestDTO estacionRequestDTO) {
-        EstacionResponseDTO estacionResponseDTO = new EstacionResponseDTO();
-        Estacion estacion = estacionRepository.findById(estacionRequestDTO.getId()).orElse(null);
-        if (estacion == null) {
-            Estacion estacionNueva = new Estacion();
-            estacionNueva.setLatitud(estacionRequestDTO.getLatitud());
-            estacionNueva.setLongitud(estacionRequestDTO.getLongitud());
+    // Guardar una nueva estación
+    public EstacionResponseDTO save(@Valid EstacionRequestDTO estacionRequestDTO) {
+        // Crear una nueva estación basada en el DTO
+        Estacion estacionNueva = new Estacion();
+        estacionNueva.setLatitud(estacionRequestDTO.getLatitud());
+        estacionNueva.setLongitud(estacionRequestDTO.getLongitud());
 
-            Estacion estacionRta = estacionRepository.save(estacionNueva);
-            estacionResponseDTO = mapToEstacionResponseDTO(estacionRta);
-        } else {
-            System.out.println("La estación que quiere ingresar ya existe");
-        }
-        return estacionResponseDTO;
+        // Guardar la estación en la base de datos
+        Estacion estacionGuardada = estacionRepository.save(estacionNueva);
+        return mapToEstacionResponseDTO(estacionGuardada);
     }
 
-    public EstacionResponseDTO update(Long id, EstacionRequestDTO estacionRequestDTO) {
-        Estacion estacion = estacionRepository.findById(id).orElseThrow(
-                () -> new NotFoundException("La estación con ID " + id + " no fue encontrada")
-        );
+    // Actualizar una estación existente
+    public EstacionResponseDTO update(String id, @Valid EstacionRequestDTO estacionRequestDTO) {
+        // Buscar la estación existente
+        Estacion estacion = estacionRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("La estación con ID " + id + " no fue encontrada"));
 
+        // Actualizar los valores
         estacion.setLatitud(estacionRequestDTO.getLatitud());
         estacion.setLongitud(estacionRequestDTO.getLongitud());
 
-        Estacion updatedEstacion = estacionRepository.save(estacion);
-        return mapToEstacionResponseDTO(updatedEstacion);
+        // Guardar los cambios en la base de datos
+        Estacion estacionActualizada = estacionRepository.save(estacion);
+        return mapToEstacionResponseDTO(estacionActualizada);
     }
 
-    public void delete(Long id) {
-        Estacion estacion = estacionRepository.findById(id).orElseThrow(
-                () -> new NotFoundException("La estación con ID " + id + " no fue encontrada")
-        );
+    // Eliminar una estación
+    public void delete(String id) {
+        Estacion estacion = estacionRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("La estación con ID " + id + " no fue encontrada"));
         estacionRepository.delete(estacion);
     }
 
+    // Mapeo de Entidad -> DTO de Respuesta
     private EstacionResponseDTO mapToEstacionResponseDTO(Estacion estacion) {
         EstacionResponseDTO responseDTO = new EstacionResponseDTO();
         responseDTO.setId(estacion.getId());
