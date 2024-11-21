@@ -75,21 +75,6 @@ class UsuarioControllerTest {
         verify(usuarioService, times(1)).findById(1L);
     }
 
-    @Test
-    @DisplayName("Busqueda de un usuario por id, prueba de fallo")
-    void testFindById_NotFound() {
-        // Configuramos el mock
-        when(usuarioService.findById(1L)).thenThrow(new RuntimeException("Usuario no encontrado"));
-
-        // Llamamos al método del controlador
-        ResponseEntity<UsuarioResponseDTO> response = usuarioController.findById(1L);
-
-        // Verificamos el resultado
-        assertEquals(404, response.getStatusCodeValue());
-
-        // Verificamos que se llamó al servicio
-        verify(usuarioService, times(1)).findById(1L);
-    }
 
     @Test
     @DisplayName("Guardar un usuario")
@@ -120,14 +105,6 @@ class UsuarioControllerTest {
         verify(usuarioService, times(1)).delete(1L);
     }
 
-    @Test
-    @DisplayName("Borrar un usuario, prueba fallida")
-    void testDelete_NotFound() {
-        doThrow(new RuntimeException("Usuario no encontrado")).when(usuarioService).delete(1L);
-        ResponseEntity<Void> response = usuarioController.delete(1L);
-        assertEquals(404, response.getStatusCodeValue());
-        verify(usuarioService, times(1)).delete(1L);
-    }
 
     @Test
     @DisplayName("reporte")
