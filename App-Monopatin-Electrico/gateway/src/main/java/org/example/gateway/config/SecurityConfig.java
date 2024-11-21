@@ -52,8 +52,8 @@ public class SecurityConfig {
                         */
                           .requestMatchers(HttpMethod.POST, "/authenticate").permitAll()
                           .requestMatchers(HttpMethod.POST, "/auth/usuario").permitAll()
-//
-//
+
+
                         /* Microservicio Administrador. Las rutas de administración están restringidas exclusivamente
                         a los administradores.
                         * */
@@ -86,11 +86,7 @@ public class SecurityConfig {
                         * */
                         .requestMatchers("/facturacion/**").hasAuthority(AuthotityConstant._ADMIN)
 
-                        /* Microservicio Estación
-                        * Rutas GET accesibles para USUARIO y ADMIN
-                        * Rutas POST accesibles solo por ADMIN.
-                        *
-                        * */
+                        /* Microservicio Estación/*/
                         .requestMatchers("/estacion/**").hasAnyAuthority(AuthotityConstant._ADMIN)
 
 

@@ -96,7 +96,7 @@ public class CuentaService {
         Cuenta cuenta = cuentaRepository.findById(id).orElseThrow(
                 () -> new NotFoundException("La cuenta con ID " + id + " no fue encontrada")
         );
-        System.out.println("ENTREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
+
         cuenta.setActiva(activa);
         System.out.println(cuenta);
         this.cuentaRepository.save(cuenta);
