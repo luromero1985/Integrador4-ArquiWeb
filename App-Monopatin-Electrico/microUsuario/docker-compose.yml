@@ -1,0 +1,9 @@
+services:
+  mysql_usuario:
+    image: mysql
+    container_name: "microUsuario"
+    ports:
+      - "8000:3306"
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_DATABASE: usuario

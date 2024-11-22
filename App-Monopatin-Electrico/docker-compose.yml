@@ -1,0 +1,105 @@
+services:
+
+
+  mysql_administrador:
+    image: mysql:latest
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_DATABASE: administrador
+    ports:
+      - "8070:3306"
+    networks:
+      - mysql_network
+  mysql_facturacion:
+    image: mysql:latest
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_DATABASE: facturacion
+    ports:
+      - "8040:3306"
+    networks:
+      - mysql_network
+
+  mysql_monopatin:
+    image: mysql:latest
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_DATABASE: monopatin
+    ports:
+      - "8020:3306"
+    networks:
+      - mysql_network
+
+  mysql_viaje:
+    image: mysql:latest
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_DATABASE: viaje
+    ports:
+      - "8070:3306"
+    networks:
+      - mysql_network
+
+  mysql_cuenta:
+    image: mysql:latest
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_DATABASE: cuenta
+    ports:
+      - "8060:3306"
+    networks:
+      - mysql_network
+
+  # Servicio MongoDB para "estacion"
+  mongo_estacion:
+    image: mongo:latest
+    container_name: mongo-estacion
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    ports:
+      - "27017:27017"
+    networks:
+      - mysql_network
+    volumes:
+      - ./docker/volume_mongo_estacion:/data/db
+
+  microestacion:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: microestacion-container
+    ports:
+      - "8050:8050"
+    environment:
+      SPRING_DATA_MONGODB_HOST: mongo_estacion
+      SPRING_DATA_MONGODB_PORT: 27017
+      SPRING_DATA_MONGODB_DATABASE: estaciondb
+      SPRING_DATA_MONGODB_USERNAME: root
+      SPRING_DATA_MONGODB_PASSWORD: root
+    depends_on:
+      - mongo_estacion
+    networks:
+      - mysql_network
+
+  gateway:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: gateway
+    ports:
+      - "8090:8090"
+    depends_on:
+      - microestacion
+      - microcuenta
+      - microfacturacion
+      - micromantenimiento
+      - micromonopatin
+      - microusuario
+      - microviaje
+      - microadministrador
+    networks:
+      - mysql_network
+
+networks:
+  mysql_network:

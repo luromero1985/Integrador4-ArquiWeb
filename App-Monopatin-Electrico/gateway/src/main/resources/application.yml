@@ -8,17 +8,13 @@ spring:
             predicates:
               - Path=/cuenta/**
           - id: microestacion
-            uri: http://localhost:8050/**
+            uri: http://localhost:27017/**
             predicates:
               - Path=/estacion/**
           - id: microfacturacion
             uri: http://localhost:8040/**
             predicates:
               - Path=/facturacion/**
-          - id: micromantenimiento
-            uri: http://localhost:8030/**
-            predicates:
-              - Path=/mantenimiento/**
           - id: micromonopatin
             uri: http://localhost:8020/**
             predicates:
