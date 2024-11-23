@@ -1,5 +1,6 @@
 package org.example.microestacion.services;
 
+import jakarta.validation.Valid;
 import org.example.microestacion.DTO.EstacionRequestDTO;
 import org.example.microestacion.DTO.EstacionResponseDTO;
 import org.example.microestacion.entities.Estacion;
@@ -8,7 +9,7 @@ import org.example.microestacion.services.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.validation.Valid;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,6 +24,7 @@ public class EstacionService {
     }
     // Obtener todas las estaciones
     public List<EstacionResponseDTO> findAll() {
+        System.out.println("HOOLAA");
         return estacionRepository.findAll().stream()
                 .map(this::mapToEstacionResponseDTO)
                 .collect(Collectors.toList());

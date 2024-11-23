@@ -4,6 +4,9 @@ package org.example.microadministrador.services;
 
 import jakarta.transaction.Transactional;
 import org.example.microadministrador.DTO.*;
+import org.example.microadministrador.DTO.EstadoDeMonopatinesDTO;
+import org.example.microadministrador.DTO.ReporteMonopatinMantenimientoConPausaDTO;
+import org.example.microadministrador.DTO.ReporteMonopatinMantenimientoDTO;
 import org.example.microadministrador.entities.Administrador;
 import org.example.microadministrador.feignClients.FacturacionFeignClient;
 import org.example.microadministrador.feignClients.MonopatinFeignClient;
@@ -13,9 +16,9 @@ import org.example.microadministrador.services.exception.FechaNulaException;
 import org.example.microadministrador.services.exception.NotFoundException;
 import org.example.microadministrador.services.exception.TarifaNoEncontradaException;
 import org.example.microadministrador.feignClients.CuentaFeignClient;
-import org.example.micromonopatin.DTO.EstadoDeMonopatinesDTO;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;

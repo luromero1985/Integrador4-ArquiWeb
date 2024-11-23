@@ -1,7 +1,7 @@
 package org.example.microusuario.controllers;
 
 
-import org.example.microcuenta.DTO.CuentaResponseDTO;
+
 import org.example.microusuario.DTO.ReporteMonopatinesCercanosDTO;
 import org.example.microusuario.DTO.UsuarioRequestDTO;
 import org.example.microusuario.DTO.UsuarioResponseDTO;

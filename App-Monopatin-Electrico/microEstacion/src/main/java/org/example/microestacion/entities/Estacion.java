@@ -5,7 +5,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.jetbrains.annotations.NotNull;
 import lombok.*;
 
-@Document(collection = "estacion") // Mapea a la colección "estaciones" en MongoDB
+@Document(collection = "estaciones") // Mapea a la colección "estaciones" en MongoDB
 @Getter
 @Setter
 @ToString

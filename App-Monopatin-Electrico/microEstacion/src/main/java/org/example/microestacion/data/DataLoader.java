@@ -4,10 +4,11 @@ package org.example.microestacion.data;
 import org.example.microestacion.entities.Estacion;
 import org.example.microestacion.repositories.EstacionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 @Component
-public class DataLoader {
+public class DataLoader implements CommandLineRunner  {
 
     private final EstacionRepository estacionRepository;
 
@@ -16,8 +17,9 @@ public class DataLoader {
         this.estacionRepository = estacionRepository;
     }
 
-    public void cargarDatos() {
-        // Crear instancias de Estacion con datos de ejemplo
+    @Override
+    public void run(String... args) throws Exception {
+        System.out.println("Empezando");
         Estacion estacion1 = new Estacion(null, 40.7128, -74.0060); // Nueva York
         Estacion estacion2 = new Estacion(null, 34.0522, -118.2437); // Los Angeles
 

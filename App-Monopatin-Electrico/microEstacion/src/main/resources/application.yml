@@ -1,11 +1,9 @@
-
 server:
-    port: 8050
+  port: 8050
 
 spring:
-    application:
-        name: microestacion
-    data:
-        mongodb:
-            uri: mongodb://root:root@localhost:27017/estacion?authSource=admin
-
+  application:
+    name: microestacion
+  data:
+    mongodb:
+      uri: mongodb://admin:admin@localhost:27017/estacion?authSource=admin  # URI de conexión a MongoDB

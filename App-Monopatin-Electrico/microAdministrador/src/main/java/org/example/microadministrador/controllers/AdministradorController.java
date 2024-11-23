@@ -1,14 +1,17 @@
 package org.example.microadministrador.controllers;
 
-import org.example.microadministrador.services.exception.NotFoundException;
 import org.example.microadministrador.DTO.*;
+import org.example.microadministrador.services.exception.NotFoundException;
+
+
 import org.example.microadministrador.services.AdministradorService;
-import org.example.micromonopatin.DTO.EstadoDeMonopatinesDTO;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -127,7 +130,7 @@ public class AdministradorController {
             }
         }
     }
-
+/*
     @GetMapping("/reporteE")
     public ResponseEntity<EstadoDeMonopatinesDTO> getEstadoDeMonopatines(){
         {
@@ -139,4 +142,5 @@ public class AdministradorController {
             }
         }
     }
+*/
 }
