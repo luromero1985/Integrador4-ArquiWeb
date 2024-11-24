@@ -130,7 +130,7 @@ public class AdministradorController {
             }
         }
     }
-/*
+
     @GetMapping("/reporteE")
     public ResponseEntity<EstadoDeMonopatinesDTO> getEstadoDeMonopatines(){
         {
@@ -142,5 +142,5 @@ public class AdministradorController {
             }
         }
     }
-*/
+
 }

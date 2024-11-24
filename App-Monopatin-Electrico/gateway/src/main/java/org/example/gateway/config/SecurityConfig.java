@@ -95,7 +95,7 @@ public class SecurityConfig {
 
                         // Cualquier otra solicitud debe estar autenticada
 
-                                // Microservicio Viaje
+                                // Microservicio usuario
                         .requestMatchers("/usuarios/**").hasAnyAuthority(AuthotityConstant._ADMIN, AuthotityConstant._USUARIO)
 
                      .anyRequest().authenticated()
