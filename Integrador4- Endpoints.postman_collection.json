@@ -485,7 +485,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8090/monopatin/11",
+							"raw": "http://localhost:8090/monopatin/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -493,7 +493,7 @@
 							"port": "8090",
 							"path": [
 								"monopatin",
-								"11"
+								"1"
 							]
 						}
 					},
@@ -575,6 +575,42 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "monopatinCercano",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtZXJjZWRlcyIsImF1dGgiOiJVU1VBUklPIiwiZXhwIjoxNzMyMjMwMTM2LCJpYXQiOjE3MzIxNDM3MzZ9.o63JWJieYGnpRvecH-j44zZebPEZQlPfwpwpAgOhT8VcJ2pIZytqKc5z3OQFjVuPut7PRJQj9GeDRtKJOL9Vng",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8090/monopatin/monopatines-cercanos/latitud/329856.0/longitud/220343.12/rango/1000",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"monopatin",
+								"monopatines-cercanos",
+								"latitud",
+								"329856.0",
+								"longitud",
+								"220343.12",
+								"rango",
+								"1000"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -582,7 +618,7 @@
 			"name": "Viaje",
 			"item": [
 				{
-					"name": "MonopatinByCantViajeYAnio",
+					"name": "findAll",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -861,6 +897,32 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "ReporteG",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8090/usuario/reporteG/latitud/329856.0/longitud/220343.12/rango/1000",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"usuario",
+								"reporteG",
+								"latitud",
+								"329856.0",
+								"longitud",
+								"220343.12",
+								"rango",
+								"1000"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -1030,11 +1092,21 @@
 				{
 					"name": "update",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsdWNpYW5hIiwiYXV0aCI6IkFETUlOIiwiZXhwIjoxNzMyMjM0MTQ2LCJpYXQiOjE3MzIxNDc3NDZ9.dUy__nwIAiNrR0NB2twAWfHkUJJmHXkQAkyXoL6kGCU1pXu8fbODNPxNHyT1ju8325DhgZfZLwauqbd__qVssA",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"id\": 10,\r\n    \"latitud\": 30453000,\r\n    \"longitud\": -38312000\r\n}",
+							"raw": "{\r\n    \"id\": 10,\r\n    \"latitud\": 20453000,\r\n    \"longitud\": -38312000\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1042,7 +1114,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8090/estacion/10",
+							"raw": "http://localhost:8090/estacion/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1050,7 +1122,7 @@
 							"port": "8090",
 							"path": [
 								"estacion",
-								"10"
+								"1"
 							]
 						}
 					},
@@ -1514,6 +1586,164 @@
 					"request": {
 						"method": "GET",
 						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "estadoMonopatines-E",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsdWNpYW5hIiwiYXV0aCI6IkFETUlOIiwiZXhwIjoxNzMyMjM0MTQ2LCJpYXQiOjE3MzIxNDc3NDZ9.dUy__nwIAiNrR0NB2twAWfHkUJJmHXkQAkyXoL6kGCU1pXu8fbODNPxNHyT1ju8325DhgZfZLwauqbd__qVssA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8090/administrador/reporteE",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"administrador",
+								"reporteE"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "jwt",
+			"item": [
+				{
+					"name": "authentication",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"Mercedes\",\r\n  \"password\": 456\r\n  }\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8090/authenticate",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"authenticate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"Mercedes\",\r\n  \"password\": 456,\r\n  \"authorities\":[\"USUARIO\"]\r\n}\r\n \r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8090/auth/usuario",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"auth",
+								"usuario"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Luciana",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"Luciana\",\r\n  \"password\": 456,\r\n  \"authorities\":[\"ADMIN\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8090/auth/usuario",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"auth",
+								"usuario"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LuAuth",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"Luciana\",\r\n  \"password\": 456\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8090/authenticate",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"authenticate"
+							]
+						}
 					},
 					"response": []
 				}
