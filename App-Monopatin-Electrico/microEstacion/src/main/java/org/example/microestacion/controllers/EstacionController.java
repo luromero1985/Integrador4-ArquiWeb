@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 @RestController  // Indica que esta clase maneja peticiones REST
-@RequestMapping("/api/estaciones")  // Mapea las URL de la API
+@RequestMapping("/estacion")  // Mapea las URL de la API
 public class EstacionController {
 @Autowired
     // Inyección de dependencias

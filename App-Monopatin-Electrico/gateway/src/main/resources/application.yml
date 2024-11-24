@@ -23,7 +23,7 @@ spring:
             predicates:
               - Path=/cuenta/**
           - id: microestacion
-            uri: http://localhost:27017/**
+            uri: http://localhost:8050/**
             predicates:
               - Path=/estacion/**
           - id: microfacturacion
